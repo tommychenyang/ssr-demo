@@ -9,7 +9,9 @@ const app = express(),
     HTML_FILE = path.join(DIST_DIR, 'index.html');
 
 app.get('/', (req, res) => {
-    res.send(buildPage(ReactDOMServer.renderToString(<App />)));
+    const str = ReactDOMServer.renderToString(<App />);
+    console.log(str);
+    res.send(buildPage(str));
 });
 app.use(express.static(DIST_DIR));
 

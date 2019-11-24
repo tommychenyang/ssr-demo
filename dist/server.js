@@ -96,8 +96,25 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buildPage", function() { return buildPage; });
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ "fs");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! path */ "path");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const BUILD_DIR = path__WEBPACK_IMPORTED_MODULE_1___default.a.resolve(__dirname, '..', 'build');
+const assets = JSON.parse(fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(path__WEBPACK_IMPORTED_MODULE_1___default.a.resolve(BUILD_DIR, 'asset-manifest.json'), 'utf-8'));
+
+const generateJS = assets => {
+  return assets.entryJs.map(a => "<script src=\"".concat(a, "\"></script>"));
+};
+
+const generateCss = assets => {
+  return assets.entryCss.map(a => "<link href=\"".concat(a, "\" rel=\"stylesheet\">"));
+};
+
 const buildPage = html => {
-  return "<!doctype html>\n    <html lang=\"en\">\n    \n    <head>\n        <meta charset=\"utf-8\" />\n        \n        <title>React App</title>\n        <link href=\"/static/css/main.2cce8147.chunk.css\" rel=\"stylesheet\">\n    </head>\n    \n    <body><noscript>You need to enable JavaScript to run this app.</noscript>\n        <div id=\"root\">".concat(html, "</div>\n        <script>!function (l) { function e(e) { for (var r, t, n = e[0], o = e[1], u = e[2], f = 0, i = []; f < n.length; f++)t = n[f], p[t] && i.push(p[t][0]), p[t] = 0; for (r in o) Object.prototype.hasOwnProperty.call(o, r) && (l[r] = o[r]); for (s && s(e); i.length;)i.shift()(); return c.push.apply(c, u || []), a() } function a() { for (var e, r = 0; r < c.length; r++) { for (var t = c[r], n = !0, o = 1; o < t.length; o++) { var u = t[o]; 0 !== p[u] && (n = !1) } n && (c.splice(r--, 1), e = f(f.s = t[0])) } return e } var t = {}, p = { 1: 0 }, c = []; function f(e) { if (t[e]) return t[e].exports; var r = t[e] = { i: e, l: !1, exports: {} }; return l[e].call(r.exports, r, r.exports, f), r.l = !0, r.exports } f.m = l, f.c = t, f.d = function (e, r, t) { f.o(e, r) || Object.defineProperty(e, r, { enumerable: !0, get: t }) }, f.r = function (e) { \"undefined\" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, { value: \"Module\" }), Object.defineProperty(e, \"__esModule\", { value: !0 }) }, f.t = function (r, e) { if (1 & e && (r = f(r)), 8 & e) return r; if (4 & e && \"object\" == typeof r && r && r.__esModule) return r; var t = Object.create(null); if (f.r(t), Object.defineProperty(t, \"default\", { enumerable: !0, value: r }), 2 & e && \"string\" != typeof r) for (var n in r) f.d(t, n, function (e) { return r[e] }.bind(null, n)); return t }, f.n = function (e) { var r = e && e.__esModule ? function () { return e.default } : function () { return e }; return f.d(r, \"a\", r), r }, f.o = function (e, r) { return Object.prototype.hasOwnProperty.call(e, r) }, f.p = \"/\"; var r = window.webpackJsonp = window.webpackJsonp || [], n = r.push.bind(r); r.push = e, r = r.slice(); for (var o = 0; o < r.length; o++)e(r[o]); var s = n; a() }([])</script>\n        <script src=\"/static/js/2.f6711c6e.chunk.js\"></script>\n        <script src=\"/static/js/main.838a2cfb.chunk.js\"></script>\n    </body>\n    \n    </html>");
+  return "<!doctype html>\n    <html lang=\"en\">\n    \n    <head>\n        <meta charset=\"utf-8\" />\n        \n        <title>React App</title>\n        ".concat(generateCss(assets), "\n    </head>\n    \n    <body><noscript>You need to enable JavaScript to run this app.</noscript>\n        <div id=\"root\">").concat(html, "</div>\n        ").concat(generateJS(assets), "\n    </body>\n    \n    </html>");
 };
 
 
@@ -133,13 +150,15 @@ const app = express(),
       DIST_DIR = path.resolve(__dirname, '..', 'build'),
       HTML_FILE = path.join(DIST_DIR, 'index.html');
 app.get('/', (req, res) => {
-  res.send(Object(_renderer__WEBPACK_IMPORTED_MODULE_3__["buildPage"])(react_dom_server__WEBPACK_IMPORTED_MODULE_1___default.a.renderToString(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_App__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  const str = react_dom_server__WEBPACK_IMPORTED_MODULE_1___default.a.renderToString(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_src_App__WEBPACK_IMPORTED_MODULE_2__["default"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 12
     },
     __self: undefined
-  }))));
+  }));
+  console.log(str);
+  res.send(Object(_renderer__WEBPACK_IMPORTED_MODULE_3__["buildPage"])(str));
 });
 app.use(express.static(DIST_DIR));
 const PORT = process.env.PORT || 3000;
@@ -181,53 +200,65 @@ var _jsxFileName = "C:\\workspace\\ssr-demo\\src\\App.js";
 
 
 
-function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "App",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 7
-    },
-    __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "App-header",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 8
-    },
-    __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _logo_svg__WEBPACK_IMPORTED_MODULE_1___default.a,
-    className: "App-logo",
-    alt: "logo",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 9
-    },
-    __self: this
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 10
-    },
-    __self: this
-  }, "Edit ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("code", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 11
-    },
-    __self: this
-  }, "src/App.js"), " and save to reload."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "App-link",
-    href: "https://reactjs.org",
-    target: "_blank",
-    rel: "noopener noreferrer",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 13
-    },
-    __self: this
-  }, "Learn React")));
+class App extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    console.log('Application did mount');
+  }
+
+  render() {
+    console.log('application rendering');
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "App",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 13
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+      className: "App-header",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 14
+      },
+      __self: this
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: _logo_svg__WEBPACK_IMPORTED_MODULE_1___default.a,
+      className: "App-logo",
+      alt: "logo",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 15
+      },
+      __self: this
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 16
+      },
+      __self: this
+    }, "Edit ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("code", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 17
+      },
+      __self: this
+    }, "src/App.js"), " and save to reload."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "App-link",
+      href: "https://reactjs.org",
+      target: "_blank",
+      rel: "noopener noreferrer",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 19
+      },
+      __self: this
+    }, "Learn React")));
+  }
+
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -253,6 +284,17 @@ module.exports = __webpack_require__.p + "static/media/logo.5d5d9eef.svg";
 /***/ (function(module, exports) {
 
 module.exports = require("express");
+
+/***/ }),
+
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
 
 /***/ }),
 
