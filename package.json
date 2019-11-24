@@ -47,6 +47,7 @@
     "react-app-polyfill": "^1.0.1",
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semver": "6.0.0",
@@ -61,6 +62,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "start:ssr":"npm run build && npm run server && node dist/server.js",
     "build": "node scripts/build.js",
     "server": "cross-env NODE_ENV=development webpack --config config/webpack.server.config.js",
     "test": "node scripts/test.js"
